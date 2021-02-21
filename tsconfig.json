@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
     "target": "es2020",
+    "module": "es2020",
     "strict": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
     "sourceMap": true,
+    "moduleResolution": "node"
   }
 }
