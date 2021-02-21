@@ -11,13 +11,13 @@ export class BinaryReader {
   }
 
   readByte(): number {
-    const result = this.data.getInt8(this.offset);
+    const result = this.data.getUint8(this.offset);
     this.offset += 1;
     return result;
   }
 
   readSbyte(): number {
-    const result = this.data.getUint8(this.offset);
+    const result = this.data.getInt8(this.offset);
     this.offset += 1;
     return result;
   }
