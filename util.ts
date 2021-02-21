@@ -32,9 +32,11 @@ export class Quaternion {
 
 export class ZdoId {
   constructor(readonly userId: bigint, readonly id: number) {}
+
   get [Symbol.toStringTag](): string {
     return `${this.userId}:${this.id}`;
   }
+
   static load(reader: BinaryReader): ZdoId {
     return new ZdoId(reader.readInt64(), reader.readUInt32());
   }
@@ -52,6 +54,10 @@ export function stableHash(str: string): number {
     }
   }
   return iadd(a, Math.imul(b, 1566083941));
+}
+
+export function readByteArray(reader: BinaryReader): Uint8Array {
+  return reader.readBytes(reader.readInt32());
 }
 
 function iadd(a: number, b: number): number {

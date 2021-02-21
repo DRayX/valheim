@@ -1,6 +1,6 @@
 import { BinaryReader } from "./binary_reader";
 import { PREFAB_MAP } from "./prefabs";
-import { Quaternion, stableHash, Vector2, Vector3, ZdoId } from "./util";
+import { Quaternion, readByteArray, stableHash, Vector2, Vector3, ZdoId } from "./util";
 
 enum ObjectType {
   Default,
@@ -101,7 +101,7 @@ class ZdoMan {
     for (let i = 0; i < zdoCount; ++i) {
       const zdo = new Zdo();
       zdo.uid = ZdoId.load(reader);
-      const pkg = new BinaryReader(reader.readBytes(reader.readInt32()));
+      const pkg = new BinaryReader(readByteArray(reader));
       zdo.load(pkg, version);
       this.objectsById[zdo.uid.toString()] = zdo;
     }
@@ -220,7 +220,7 @@ export class WorldMeta {
 
   static load(metaBuffer: ArrayBufferLike | ArrayBufferView): WorldMeta {
     const metaReader = new BinaryReader(metaBuffer);
-    const pkg = new BinaryReader(metaReader.readBytes(metaReader.readInt32()));
+    const pkg = new BinaryReader(readByteArray(metaReader));
     const meta = new WorldMeta(pkg.readInt32());
     meta.name = pkg.readString();
     meta.seedName = pkg.readString();

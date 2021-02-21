@@ -1,5 +1,5 @@
 import { BinaryReader } from "./binary_reader";
-import { Vector2, Vector3, ZdoId } from "./util";
+import { readByteArray, Vector2, Vector3, ZdoId } from "./util";
 
 enum Biome {
   None = 0x000,
@@ -336,8 +336,8 @@ export class Character {
 
   static load(buffer: ArrayBufferLike | ArrayBufferView): Character {
     const reader = new BinaryReader(buffer);
-    const data = reader.readBytes(reader.readInt32());
-    const hash = reader.readBytes(reader.readInt32());
+    const data = readByteArray(reader);
+    const hash = readByteArray(reader);
     const pkg = new BinaryReader(data);
     const character = new Character(pkg.readInt32());
     character.hash = hash;
@@ -361,7 +361,7 @@ export class Character {
       }
       worldPlayerData.homePoint = Vector3.readSingle(pkg);
       if (character.version >= 29 && pkg.readBoolean()) {
-        worldPlayerData.mapData = MapData.load(pkg.readBytes(pkg.readInt32()));
+        worldPlayerData.mapData = MapData.load(readByteArray(pkg));
       }
       character.worldData[key.toString()] = worldPlayerData;
     }
@@ -369,7 +369,7 @@ export class Character {
     character.playerId = pkg.readInt64();
     character.startSeed = pkg.readString();
     if (pkg.readBoolean()) {
-      character.player = Player.load(pkg.readBytes(pkg.readInt32()));
+      character.player = Player.load(readByteArray(pkg));
     }
     return character;
   }
