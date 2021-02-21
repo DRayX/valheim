@@ -91,7 +91,7 @@ class Item {
 
 class Skill {
   skill: SkillType;
-  name: string;
+  name_: string;
   level: number;
   accumulator: number;
 }
@@ -131,7 +131,7 @@ class Skills {
     for (let i = 0; i < skillCount; ++i) {
       const skill = new Skill();
       skill.skill = reader.readInt32();
-      skill.name = SkillType[skill.skill];
+      skill.name_ = SkillType[skill.skill];
       skill.level = reader.readSingle();
       skill.accumulator = version >= 2 ? reader.readSingle() : 0;
       this.skills.push(skill);
@@ -155,7 +155,7 @@ class Player {
   readonly uniques: string[] = [];
   readonly trophies: string[] = [];
   readonly knownBiome: Biome[] = [];
-  readonly knownBiomeNames: string[] = [];
+  readonly knownBiomeNames_: string[] = [];
   readonly knownTexts: {[key: string]: string} = {};
   beard: string;
   hair: string;
@@ -235,7 +235,7 @@ class Player {
       for (let i = 0; i < knownBiomeCount; ++i) {
         const biome = reader.readInt32();
         player.knownBiome.push(biome);
-        player.knownBiomeNames.push(Biome[biome]);
+        player.knownBiomeNames_.push(Biome[biome]);
       }
     }
     if (player.version >= 22) {
@@ -291,7 +291,7 @@ class Pin {
   name: string;
   pos: Vector3;
   type: PinType;
-  typeName: string;
+  typeName_: string;
   isChecked: boolean;
 }
 
@@ -315,7 +315,7 @@ class MapData {
         pin.name = reader.readString();
         pin.pos = Vector3.readSingle(reader);
         pin.type = reader.readInt32();
-        pin.typeName = PinType[pin.type];
+        pin.typeName_ = PinType[pin.type];
         pin.isChecked = reader.readBoolean();
       }
     }

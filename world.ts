@@ -17,10 +17,10 @@ class Zdo {
   timeCreated: bigint;
   pgwVersion: number;
   type: ObjectType;
-  typeName: string;
+  typeName_: string;
   distant: boolean;
   prefab: number;
-  prefabName: string;
+  prefabName_: string;
   sector: Vector2;
   position: Vector3;
   rotation: Quaternion;
@@ -43,7 +43,7 @@ class Zdo {
     }
     if (version >= 23) {
       this.type = reader.readSbyte();
-      this.typeName = ObjectType[this.type];
+      this.typeName_ = ObjectType[this.type];
     }
     if (version >= 22) {
       this.distant = reader.readBoolean();
@@ -85,7 +85,7 @@ class Zdo {
     if (version < 17) {
       this.prefab = this.ints[stableHash('prefab')];
     }
-    this.prefabName = PREFAB_MAP[this.prefab];
+    this.prefabName_ = PREFAB_MAP[this.prefab];
   }
 }
 
