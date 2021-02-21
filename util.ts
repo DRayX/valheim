@@ -32,11 +32,9 @@ export class Quaternion {
 
 export class ZdoId {
   constructor(readonly userId: bigint, readonly id: number) {}
-
   get [Symbol.toStringTag](): string {
     return `${this.userId}:${this.id}`;
   }
-
   static load(reader: BinaryReader): ZdoId {
     return new ZdoId(reader.readInt64(), reader.readUInt32());
   }
