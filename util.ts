@@ -1,5 +1,4 @@
 import { BinaryReader } from "./binary_reader";
-import { iadd, imul } from "./math";
 
 export enum Biome {
   None = 0x000,
@@ -88,4 +87,18 @@ export function stableHash(str: string): number {
     }
   }
   return iadd(a, imul(b, 1566083941));
+}
+
+export const imul = Math.imul;
+
+export function iadd(a: number, b: number): number {
+  return (a + b) | 0;
+}
+
+export function idiv(a: number, b: number): number {
+  return (a / b) | 0;
+}
+
+export function isub(a: number, b: number): number {
+  return (a - b) | 0;
 }
