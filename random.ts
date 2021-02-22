@@ -2,6 +2,7 @@ import { iadd, imul, Vector2 } from "./util";
 
 export class Xorshift128 {
   private static readonly f = 1812433253;
+  private static readonly tau = 2 * Math.PI;
 
   private b: number;
   private c: number;
@@ -27,7 +28,8 @@ export class Xorshift128 {
   }
 
   rangeFloat(min: number, max: number): number {
-    return this.value * (min - max) + max;
+    const value = this.value;
+    return max - value * max + value * min;
   }
 
   get value(): number {
@@ -35,7 +37,7 @@ export class Xorshift128 {
   }
 
   get insideUnitCircle(): Vector2 {
-    const theta = (1 - this.value) * Math.PI * 2;
+    const theta = Xorshift128.tau - this.value * Xorshift128.tau;
     const r = Math.sqrt(1 - this.value);
     return new Vector2(Math.cos(theta) * r, Math.sin(theta) * r);
   }
