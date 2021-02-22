@@ -1,5 +1,4 @@
 import { iadd, imul } from "./math";
-import { Vector2 } from "./util";
 
 export class Xorshift128 {
   private static readonly f = 1812433253;
