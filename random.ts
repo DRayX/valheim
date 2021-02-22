@@ -1,4 +1,5 @@
 import { iadd, imul } from "./math";
+import { Vector2 } from "./util";
 
 export class Xorshift128 {
   private static readonly f = 1812433253;
@@ -32,5 +33,11 @@ export class Xorshift128 {
 
   get value(): number {
     return (this.next() & 0x7fffff) / 0x7fffff;
+  }
+
+  get insideUnitCircle(): Vector2 {
+    const theta = (1 - this.value) * Math.PI * 2;
+    const r = Math.sqrt(1 - this.value);
+    return new Vector2(Math.cos(theta) * r, Math.sin(theta) * r);
   }
 }
