@@ -1,4 +1,5 @@
 import { iadd, imul } from "./math";
+import { Vector2 } from "./util";
 
 export class Xorshift128 {
   private static readonly f = 1812433253;
@@ -21,12 +22,12 @@ export class Xorshift128 {
     return this.d ^= (this.d >>> 19) ^ t ^ (t >>> 8);
   }
 
-  intRange(min: number, max: number): number {
+  rangeInt(min: number, max: number): number {
     const n = this.next();
     return (n < 0 ? n + 0x100000000 : n) % (max - min) + min;
   }
 
-  floatRange(min: number, max: number): number {
+  rangeFloat(min: number, max: number): number {
     return this.value * (min - max) + max;
   }
 
