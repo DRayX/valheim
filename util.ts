@@ -14,52 +14,54 @@ export enum Biome {
 }
 
 export class Vector2 {
+  static readInt32(reader: BinaryReader): Vector2 {
+    return new Vector2(reader.readInt32(), reader.readInt32());
+  }
   constructor(readonly x: number, readonly y: number) {}
   get [Symbol.toStringTag](): string {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)})`;
   }
-  static readInt32(reader: BinaryReader): Vector2 {
-    return new Vector2(reader.readInt32(), reader.readInt32());
-  }
   get magnitude(): number {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
-  get normalized(): Vector2 {
-    const magnitude = this.magnitude;
-    return new Vector2(this.x / magnitude, this.y / magnitude);
+  dot(other: Vector2): number {
+    return this.x * other.x + this.y * other.y;
   }
 }
 
 export class Vector3 {
+  static readSingle(reader: BinaryReader): Vector3 {
+    return new Vector3(reader.readSingle(), reader.readSingle(), reader.readSingle());
+  }
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
   get [Symbol.toStringTag](): string {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)}, ${this.z.toFixed(1)})`;
   }
-  static readSingle(reader: BinaryReader): Vector3 {
-    return new Vector3(reader.readSingle(), reader.readSingle(), reader.readSingle());
-  }
   get magnitude(): number {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+  }
+  dot(other: Vector3): number {
+    return this.x * other.x + this.y * other.y + this.z * other.z;
   }
 }
 
 export class Quaternion {
+  static readSingle(reader: BinaryReader): Quaternion {
+    return new Quaternion(reader.readSingle(), reader.readSingle(), reader.readSingle(), reader.readSingle());
+  }
   constructor(readonly x: number, readonly y: number, readonly z: number, readonly w: number) {}
   get [Symbol.toStringTag](): string {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)}, ${this.z.toFixed(1)}, ${this.w.toFixed(1)})`;
   }
-  static readSingle(reader: BinaryReader): Quaternion {
-    return new Quaternion(reader.readSingle(), reader.readSingle(), reader.readSingle(), reader.readSingle());
-  }
 }
 
 export class ZdoId {
+  static load(reader: BinaryReader): ZdoId {
+    return new ZdoId(reader.readInt64(), reader.readUInt32());
+  }
   constructor(readonly userId: bigint, readonly id: number) {}
   get [Symbol.toStringTag](): string {
     return `${this.userId}:${this.id}`;
-  }
-  static load(reader: BinaryReader): ZdoId {
-    return new ZdoId(reader.readInt64(), reader.readUInt32());
   }
 }
 
@@ -67,7 +69,7 @@ export class Color {
   static readonly white = new Color(1, 1, 1, 1);
   constructor(readonly r: number, readonly g: number, readonly b: number, readonly a: number = 1) {}
   get [Symbol.toStringTag](): string {
-    return ``;
+    return `RGBA(${this.r.toFixed(3)}, ${this.g.toFixed(3)}, ${this.b.toFixed(3)}, ${this.a.toFixed(3)})`;
   }
 }
 
