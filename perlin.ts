@@ -18,7 +18,7 @@ function permute(a: number, b: number) {
 }
 
 function noise(x: number, y: number): number {
-  let ix = Math.floor(x);
+  const ix = Math.floor(x);
   const iy = Math.floor(y);
   const fx = x - ix;
   const fy = y - iy;
