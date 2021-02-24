@@ -24,13 +24,16 @@ function noise(x: number, y: number): number {
   const b = iy & 0xff;
   const u = fade(fx);
   const v = fade(fy);
-  return lerp(v,
-      lerp(u,
+  return lerp(
+      lerp(
           grad(permute(a, b), fx, fy),
-          grad(permute(a + 1, b), fsub(fx, 1), fy)),
-      lerp(u,
-        grad(permute(a, b + 1), fx, fsub(fy, 1)),
-        grad(permute(a + 1, b + 1), fsub(fx, 1), fsub(fy, 1))));
+          grad(permute(a + 1, b), fsub(fx, 1), fy),
+          u),
+      lerp(
+          grad(permute(a, b + 1), fx, fsub(fy, 1)),
+          grad(permute(a + 1, b + 1), fsub(fx, 1), fsub(fy, 1)),
+          u),
+      v);
   
 }
 
