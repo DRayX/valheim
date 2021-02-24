@@ -22,12 +22,6 @@ export class Vector2 {
   get [Symbol.toStringTag](): string {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)})`;
   }
-  get magnitude(): number {
-    return length(this.x, this.y);
-  }
-  dot(other: Vector2): number {
-    return this.x * other.x + this.y * other.y;
-  }
 }
 
 export class Vector3 {
@@ -37,9 +31,6 @@ export class Vector3 {
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
   get [Symbol.toStringTag](): string {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)}, ${this.z.toFixed(1)})`;
-  }
-  dot(other: Vector3): number {
-    return this.x * other.x + this.y * other.y + this.z * other.z;
   }
 }
 
@@ -87,8 +78,4 @@ export function stableHash(str: string): number {
     }
   }
   return iadd(a, imul(b, 1566083941));
-}
-
-export function length(x: number, y: number) {
-  return Math.sqrt(x * x + y * y);
 }
