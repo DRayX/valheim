@@ -8,7 +8,7 @@ function grad(hash: number, x: number, y: number): number {
 }
 
 function fade(t: number): number {
-  return fmul(fmul(fmul(fadd(fmul(fsub(fmul(t, 6), 15), t), 10), t), t), t);
+  return fmul(fadd(fmul(fsub(fmul(t, 6), 15), t), 10), fmul(fmul(t, t), t));
 }
 
 function lerp(t: number, a: number, b: number): number {
