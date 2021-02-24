@@ -23,7 +23,7 @@ function noise(x: number, y: number): number {
   const fx = x - ix;
   const fy = y - iy;
   const a = ix & 0xff;
-  const b = ix & 0xff;
+  const b = iy & 0xff;
   const u = fade(fx);
   const v = fade(fy);
   return lerp(v,
