@@ -1,16 +1,18 @@
+import { fadd, fdiv, fmul, fsub, } from "./math";
+
 function grad(hash: number, x: number, y: number): number {
   const h = hash & 0xf;
   const u = h < 8 ? x : y;
   const v = h < 4 ? y : h === 12 || h === 14 ? x : 0;
-  return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+  return ((h & 1) === 0 ? u : fsub(0, u)) + ((h & 2) === 0 ? v : fsub(0, v));
 }
 
 function fade(t: number): number {
-  return t * t * t * (t * (t * 6 - 15) + 10);
+  return fmul(fmul(fmul(fadd(fmul(fsub(fmul(t, 6), 15), t), 10), t), t), t);
 }
 
 function lerp(t: number, a: number, b: number): number {
-  return a - t * a + t * b;
+  return fadd(fmul(fsub(b, a), t), a);
 }
 
 function permute(a: number, b: number) {
@@ -20,8 +22,8 @@ function permute(a: number, b: number) {
 function noise(x: number, y: number): number {
   const ix = Math.floor(x);
   const iy = Math.floor(y);
-  const fx = x - ix;
-  const fy = y - iy;
+  const fx = fsub(x, ix);
+  const fy = fsub(y, iy);
   const a = ix & 0xff;
   const b = iy & 0xff;
   const u = fade(fx);
@@ -29,15 +31,15 @@ function noise(x: number, y: number): number {
   return lerp(v,
       lerp(u,
           grad(permute(a, b), fx, fy),
-          grad(permute(a + 1, b), fx - 1, fy)),
+          grad(permute(a + 1, b), fsub(fx, 1), fy)),
       lerp(u,
-        grad(permute(a, b + 1), fx, fy - 1),
-        grad(permute(a + 1, b + 1), fx - 1, fy - 1)));
+        grad(permute(a, b + 1), fx, fsub(fy, 1)),
+        grad(permute(a + 1, b + 1), fsub(fx, 1), fsub(fy, 1))));
   
 }
 
 export function perlinNoise(x: number, y: number): number {
-  return (noise(x, y) + 0.69) / 1.483;
+  return fdiv(fadd(noise(x, y), Math.fround(0.69)), Math.fround(1.483));
 }
 
 const perm = Uint8Array.of(151,160,137,91,90,15,

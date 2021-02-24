@@ -1,8 +1,9 @@
-import { iadd, imul, Vector2 } from "./util";
+import { fadd, fdiv, fmul, fsub, iadd, imul } from "./math";
+import { Vector2 } from "./util";
 
 export class Xorshift128 {
   private static readonly f = 1812433253;
-  private static readonly tau = 2 * Math.PI;
+  private static readonly tau = Math.fround(6.283185);
 
   private b: number;
   private c: number;
@@ -29,16 +30,18 @@ export class Xorshift128 {
 
   rangeFloat(min: number, max: number): number {
     const value = this.value;
-    return max - value * max + value * min;
+    return fadd(fmul(fsub(1, value), max), fmul(value, min));
   }
 
   get value(): number {
-    return (this.next() & 0x7fffff) / 0x7fffff;
+    return fdiv(this.next() & 0x7fffff, 0x7fffff);
   }
 
   get insideUnitCircle(): Vector2 {
-    const theta = Xorshift128.tau - this.value * Xorshift128.tau;
-    const r = Math.sqrt(1 - this.value);
-    return new Vector2(Math.cos(theta) * r, Math.sin(theta) * r);
+    const theta = fmul(fsub(1, this.value), Xorshift128.tau);
+    const r = Math.fround(Math.sqrt(fsub(1, this.value)));
+    const x = fmul(Math.fround(Math.cos(theta)), r);
+    const y = fmul(Math.fround(Math.sin(theta)), r);
+    return new Vector2(x, y);
   }
 }

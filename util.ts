@@ -1,4 +1,5 @@
 import { BinaryReader } from "./binary_reader";
+import { iadd, imul } from "./math";
 
 export enum Biome {
   None = 0x000,
@@ -22,7 +23,7 @@ export class Vector2 {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)})`;
   }
   get magnitude(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
+    return length(this.x, this.y);
   }
   dot(other: Vector2): number {
     return this.x * other.x + this.y * other.y;
@@ -36,9 +37,6 @@ export class Vector3 {
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
   get [Symbol.toStringTag](): string {
     return `(${this.x.toFixed(1)}, ${this.y.toFixed(1)}, ${this.z.toFixed(1)})`;
-  }
-  get magnitude(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
   dot(other: Vector3): number {
     return this.x * other.x + this.y * other.y + this.z * other.z;
@@ -91,16 +89,6 @@ export function stableHash(str: string): number {
   return iadd(a, imul(b, 1566083941));
 }
 
-export const imul = Math.imul;
-
-export function iadd(a: number, b: number): number {
-  return (a + b) | 0;
-}
-
-export function idiv(a: number, b: number): number {
-  return (a / b) | 0;
-}
-
-export function isub(a: number, b: number): number {
-  return (a - b) | 0;
+export function length(x: number, y: number) {
+  return Math.sqrt(x * x + y * y);
 }
