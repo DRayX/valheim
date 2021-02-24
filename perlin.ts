@@ -1,4 +1,4 @@
-import { fadd, fdiv, fmul, fsub, } from "./math";
+import { fadd, fdiv, fmul, fsub, lerp } from "./math";
 
 function grad(hash: number, x: number, y: number): number {
   const h = hash & 0xf;
@@ -9,10 +9,6 @@ function grad(hash: number, x: number, y: number): number {
 
 function fade(t: number): number {
   return fmul(fadd(fmul(fsub(fmul(t, 6), 15), t), 10), fmul(fmul(t, t), t));
-}
-
-function lerp(t: number, a: number, b: number): number {
-  return fadd(fmul(fsub(b, a), t), a);
 }
 
 function permute(a: number, b: number) {

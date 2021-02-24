@@ -29,3 +29,7 @@ export function fmul(a: number, b: number): number {
 export function fdiv(a: number, b: number): number {
   return Math.fround(a / b);
 }
+
+export function lerp(a: number, b: number, t: number): number {
+  return fadd(a, fmul(t, fsub(b, a)));
+}
